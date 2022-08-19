@@ -1,4 +1,8 @@
 # meet
+
+
+SCENARIOS
+
 -------------------
 FEATURE 1: FILTER EVENTS BY CITY
 
