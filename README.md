@@ -45,24 +45,27 @@ When: user is looking at events
 Then: the events section should display a maximum of 32 events
 
 Scenario 2: User can change the number of events they want to see
-Given:
-When:
-Then:
+Given: user is looking at events
+When: user selects a number for search display results
+Then: display maximum will change to number that user selected
+
 -------------------
 FEATURE 4: USE THE APP WHEN OFFLINE
 
 Scenario 1: Show cached data when there’s no internet connection
-Given:
-When:
-Then:
+Given: data has been cached and user is online
+When: user loads the app
+Then: the app will run in offline mode, using cached data
+
 Scenario 2: Show error when user changes the settings (city, time range)
-Given:
-When:
-Then:
+Given: user is in offline mode, and does not have data cached for new settings
+When: user changes city settings
+Then: an error message will appear
+
 -------------------
 FEATURE 5: DATA VISUALIZATION
 
 Scenario 1: Show a chart with the number of upcoming events in each city
-Given:
-When:
-Then:
+Given: data of upcoming events has been obtained
+When: user clicks on upcoming events section
+Then: Chart will display with data of upcoming events
