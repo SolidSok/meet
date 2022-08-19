@@ -1,8 +1,10 @@
 # meet
-
-
+-------------------
+USER STORIES
+-------------------
+1. As a user, I would like to be able to filter events by city so that I can see the list of events that take place in that city
+-------------------
 SCENARIOS
-
 -------------------
 FEATURE 1: FILTER EVENTS BY CITY
 
