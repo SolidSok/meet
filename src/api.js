@@ -1,5 +1,7 @@
 import { mockData } from './mock-data';
+import axios from 'axios';
 
+export const getAccessToken = async () => {};
 export const getEvents = async () => {
   return mockData;
 };

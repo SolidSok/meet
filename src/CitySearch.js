@@ -4,6 +4,7 @@ class CitySearch extends Component {
   state = {
     query: '',
     suggestions: [],
+    showSuggestions: undefined,
   };
   handleInputChanged = event => {
     const value = event.target.value;
@@ -18,31 +19,40 @@ class CitySearch extends Component {
   handleItemClicked = suggestion => {
     this.setState({
       query: suggestion,
+      showSuggestions: false,
     });
     this.props.updateEvents(suggestion);
   };
   render() {
     return (
-      <div className="CitySearch">
+      <div>
         {' '}
-        <input
-          type="text"
-          className="city"
-          value={this.state.query}
-          onChange={this.handleInputChanged}
-        />
-        <ul className="suggestions">
-          {this.state.suggestions.map(suggestion => (
-            <li
-              key={suggestion}
-              onClick={() => this.handleItemClicked(suggestion)}>
-              {suggestion}
+        <div className="CitySearch">
+          <input
+            type="text"
+            className="city"
+            value={this.state.query}
+            onChange={this.handleInputChanged}
+            placeholder="Select City"
+            onFocus={() => {
+              this.setState({ showSuggestions: true });
+            }}
+          />
+          <ul
+            className="suggestions"
+            style={this.state.showSuggestions ? {} : { display: 'none' }}>
+            {this.state.suggestions.map(suggestion => (
+              <li
+                key={suggestion}
+                onClick={() => this.handleItemClicked(suggestion)}>
+                {suggestion}
+              </li>
+            ))}
+            <li key="all" onClick={() => this.handleItemClicked('all')}>
+              <b>See all cities</b>
             </li>
-          ))}
-          <li key="all">
-            <b>See all cities</b>
-          </li>
-        </ul>
+          </ul>
+        </div>
       </div>
     );
   }
