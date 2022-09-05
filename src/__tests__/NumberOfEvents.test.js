@@ -5,9 +5,9 @@ import NumberOfEvents from '../NumberOfEvents';
 describe('NumberOfEvents /> component', () => {
   let NumberOfEventsWrapper;
   beforeAll(() => {
-    NumberOfEventsWrapper = shallow(<NumberOfEvents />);
+    NumberOfEventsWrapper = shallow(<NumberOfEvents updateEvents={() => {}} />);
     NumberOfEventsWrapper.setState({
-      renderNumber: 32,
+      numberOfEvents: 32,
     });
   });
   test('render input', () => {
@@ -21,17 +21,25 @@ describe('NumberOfEvents /> component', () => {
   });
   test('event-amount-header rendered correctly', () => {
     expect(NumberOfEventsWrapper.find('.event-amount-header').text()).toBe(
-      `Number of events displayed: ${NumberOfEventsWrapper.state(
-        'renderNumber'
-      )}`
+      `Number of events displayed (Max 32)`
     );
   });
-  test('change state when text input changes', () => {
-    NumberOfEventsWrapper.setState({
-      renderNumber: '32',
+  test('change state when number input changes', () => {
+    NumberOfEventsWrapper.setState({ numberOfEvents: 32 });
+
+    NumberOfEventsWrapper.find('.event-amount').simulate('change', {
+      target: { value: 4 },
     });
-    const eventObject = { target: { value: 8 } };
-    NumberOfEventsWrapper.find('.event-amount').simulate('change', eventObject);
-    expect(NumberOfEventsWrapper.state('renderNumber')).toBe(8);
+    expect(NumberOfEventsWrapper.state('numberOfEvents')).toBe(4);
+
+    NumberOfEventsWrapper.find('.event-amount').simulate('change', {
+      target: { value: 'a' },
+    });
+    expect(NumberOfEventsWrapper.state('numberOfEvents')).toBe(NaN);
+
+    NumberOfEventsWrapper.find('.event-amount').simulate('change', {
+      target: { value: 40 },
+    });
+    expect(NumberOfEventsWrapper.state('numberOfEvents')).toBe(32);
   });
 });

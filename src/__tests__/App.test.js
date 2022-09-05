@@ -23,6 +23,8 @@ describe('<App /> component', () => {
   });
 });
 
+// Integration //
+
 describe('<App /> integration', () => {
   test('App passes "events" state as a prop to EventList', () => {
     const AppWrapper = mount(<App />);
@@ -62,6 +64,32 @@ describe('<App /> integration', () => {
     await suggestionItems.at(suggestionItems.length - 1).simulate('click');
     const allEvents = await getEvents();
     expect(AppWrapper.state('events')).toEqual(allEvents);
+    AppWrapper.unmount();
+  });
+
+  test('numberOfEvents(in App) state changes when user changes input', async () => {
+    const AppWrapper = mount(<App />);
+    const AppNumberState = AppWrapper.state('numberOfEvents');
+    expect(AppNumberState).not.toEqual(undefined);
+    AppWrapper.find(NumberOfEvents)
+      .find('.event-amount')
+      .simulate('change', {
+        target: { value: 4 },
+      });
+    expect(AppWrapper.state('numberOfEvents')).toBe(4);
+    AppWrapper.unmount();
+  });
+
+  test('update event list after user changes number of events', async () => {
+    const AppWrapper = mount(<App />);
+    const NumberOfEventsWrapper = AppWrapper.find(NumberOfEvents);
+    const inputNumber = 2;
+    await NumberOfEventsWrapper.instance().handleInputChanged({
+      target: { value: inputNumber },
+    });
+    const eventsToShow = mockData.slice(0, inputNumber);
+    AppWrapper.setState({ events: eventsToShow });
+    expect(AppWrapper.state('events')).toHaveLength(inputNumber);
     AppWrapper.unmount();
   });
 });

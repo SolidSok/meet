@@ -8,7 +8,7 @@ class Event extends Component {
   render() {
     const { event } = this.props;
     return (
-      <div className="Event">
+      <div className="event">
         <h1 className="event-title">{event.summary}</h1>
         <p className="event-info">
           {event.description}
@@ -24,13 +24,13 @@ class Event extends Component {
 
         {this.state.show === false ? (
           <button
-            className="show-details-button"
+            className="show-details-button details-btn"
             onClick={this.toggleEventDetails}>
             show details
           </button>
         ) : (
           <button
-            className="hide-details-button"
+            className="hide-details-button details-btn"
             onClick={this.toggleEventDetails}>
             hide details
           </button>
