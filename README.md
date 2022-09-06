@@ -51,7 +51,7 @@ Then: user should see events with collapsed details
 
 Scenario 2: User can expand an event to see its details
 Given: user has not clicked the event
-When: user clicks on event
+When: user clicks on event button
 Then: user should see expanded details on the event
 
 Scenario 3: User can collapse an event to hide its details
