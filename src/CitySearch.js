@@ -25,34 +25,31 @@ class CitySearch extends Component {
   };
   render() {
     return (
-      <div>
-        {' '}
-        <div className="CitySearch">
-          <input
-            type="text"
-            className="city"
-            value={this.state.query}
-            onChange={this.handleInputChanged}
-            placeholder="Select City"
-            onFocus={() => {
-              this.setState({ showSuggestions: true });
-            }}
-          />
-          <ul
-            className="suggestions"
-            style={this.state.showSuggestions ? {} : { display: 'none' }}>
-            {this.state.suggestions.map(suggestion => (
-              <li
-                key={suggestion}
-                onClick={() => this.handleItemClicked(suggestion)}>
-                {suggestion}
-              </li>
-            ))}
-            <li key="all" onClick={() => this.handleItemClicked('all')}>
-              <b>See all cities</b>
+      <div className="CitySearch">
+        <input
+          type="text"
+          className="city"
+          value={this.state.query}
+          onChange={this.handleInputChanged}
+          placeholder="Select City"
+          onFocus={() => {
+            this.setState({ showSuggestions: true });
+          }}
+        />
+        <ul
+          className="suggestions"
+          style={this.state.showSuggestions ? {} : { display: 'none' }}>
+          {this.state.suggestions.map(suggestion => (
+            <li
+              key={suggestion}
+              onClick={() => this.handleItemClicked(suggestion)}>
+              {suggestion}
             </li>
-          </ul>
-        </div>
+          ))}
+          <li key="all" onClick={() => this.handleItemClicked('all')}>
+            <b>See all cities</b>
+          </li>
+        </ul>
       </div>
     );
   }
