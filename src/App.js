@@ -16,23 +16,33 @@ class App extends Component {
     showWelcomeScreen: undefined,
     numberOfEvents: 32,
     selectedLocation: 'all',
-    offlineText: '',
+    warningText: '',
   };
   async componentDidMount() {
     this.mounted = true;
-    const accessToken = localStorage.getItem('access_token');
-    const isTokenValid = (await checkToken(accessToken)).error ? false : true;
-    const searchParams = new URLSearchParams(window.location.search);
-    const code = searchParams.get('code');
-    this.setState({ showWelcomeScreen: !(code || isTokenValid) });
-    if (!navigator.onLine)
-      this.setState({ offlineText: 'You are currently in offline mode' });
-    else if ((code || isTokenValid) && this.mounted) {
+    if (navigator.onLine) {
+      const accessToken = localStorage.getItem('access_token');
+      const isTokenValid = (await checkToken(accessToken)).error ? false : true;
+      const searchParams = new URLSearchParams(window.location.search);
+      const code = searchParams.get('code');
+      this.setState({ showWelcomeScreen: !(code || isTokenValid) });
+      if ((code || isTokenValid) && this.mounted) {
+        getEvents().then(events => {
+          if (this.mounted) {
+            this.setState({
+              events: events.slice(0, this.state.numberOfEvents),
+              locations: extractLocations(events),
+            });
+          }
+        });
+      }
+    } else {
       getEvents().then(events => {
         if (this.mounted) {
           this.setState({
-            events: events.slice(0, this.state.numberOfEvents),
             locations: extractLocations(events),
+            warningText: 'You are currently offline',
+            showWelcomeScreen: false,
           });
         }
       });
@@ -68,7 +78,7 @@ class App extends Component {
       return <div className="App" />;
     return (
       <div className="App">
-        <WarningAlert text={this.state.offlineText} />
+        <WarningAlert text={this.state.warningText} />
         <CitySearch
           locations={this.state.locations}
           updateEvents={this.updateEvents}
