@@ -4,9 +4,10 @@ import './App.css';
 import EventList from './components/EventList';
 import CitySearch from './components/CitySearch';
 import NumberOfEvents from './NumberOfEvents';
-import WelcomeScreen from './WelcomeScreen';
+import WelcomeScreen from './components/WelcomeScreen';
 import { getEvents, extractLocations, checkToken, getAccessToken } from './api';
 import './nprogress.css';
+import { WarningAlert } from './components/Alert';
 
 class App extends Component {
   state = {
@@ -15,6 +16,7 @@ class App extends Component {
     showWelcomeScreen: undefined,
     numberOfEvents: 32,
     selectedLocation: 'all',
+    offlineText: '',
   };
   async componentDidMount() {
     this.mounted = true;
@@ -23,7 +25,9 @@ class App extends Component {
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get('code');
     this.setState({ showWelcomeScreen: !(code || isTokenValid) });
-    if ((code || isTokenValid) && this.mounted) {
+    if (!navigator.onLine)
+      this.setState({ offlineText: 'You are currently in offline mode' });
+    else if ((code || isTokenValid) && this.mounted) {
       getEvents().then(events => {
         if (this.mounted) {
           this.setState({
@@ -64,6 +68,7 @@ class App extends Component {
       return <div className="App" />;
     return (
       <div className="App">
+        <WarningAlert text={this.state.offlineText} />
         <CitySearch
           locations={this.state.locations}
           updateEvents={this.updateEvents}
