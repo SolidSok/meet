@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import EventList from './components/EventList';
 import CitySearch from './components/CitySearch';
-import NumberOfEvents from './NumberOfEvents';
+import NumberOfEvents from './components/NumberOfEvents';
 import WelcomeScreen from './components/WelcomeScreen';
 import { getEvents, extractLocations, checkToken, getAccessToken } from './api';
 import './nprogress.css';
