@@ -15,6 +15,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  ResponsiveContainer,
 } from 'recharts';
 
 class App extends Component {
@@ -28,34 +29,34 @@ class App extends Component {
   };
   async componentDidMount() {
     this.mounted = true;
-    if (navigator.onLine) {
-      const accessToken = localStorage.getItem('access_token');
-      const isTokenValid = (await checkToken(accessToken)).error ? false : true;
-      const searchParams = new URLSearchParams(window.location.search);
-      const code = searchParams.get('code');
-      this.setState({ showWelcomeScreen: !(code || isTokenValid) });
-      if ((code || isTokenValid) && this.mounted) {
-        getEvents().then(events => {
-          if (this.mounted) {
-            this.setState({
-              events: events.slice(0, this.state.numberOfEvents),
-              locations: extractLocations(events),
-            });
-          }
-        });
-      }
-    } else {
+    const accessToken = localStorage.getItem('access_token');
+    const isTokenValid = (await checkToken(accessToken)).error ? false : true;
+    const searchParams = new URLSearchParams(window.location.search);
+    const code = searchParams.get('code');
+    this.setState({ showWelcomeScreen: !(code || isTokenValid) });
+    if ((code || isTokenValid) && this.mounted) {
       getEvents().then(events => {
         if (this.mounted) {
-          this.setState({
-            locations: extractLocations(events),
-            warningText: 'You are currently offline',
-            showWelcomeScreen: false,
-          });
+          this.setState({ events, locations: extractLocations(events) });
         }
       });
     }
+    if (!navigator.onLine) {
+      this.setState({
+        warningText:
+          'You are currently offline. Data from your last session is being used.',
+      });
+    } else {
+      this.setState({
+        warningText: '',
+      });
+    }
   }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
   getData = () => {
     const { locations, events } = this.state;
     const data = locations.map(location => {
@@ -65,9 +66,6 @@ class App extends Component {
     });
     return data;
   };
-  componentWillUnmount() {
-    this.mounted = false;
-  }
 
   updateEvents = (location, eventCount) => {
     if (eventCount === undefined) {
@@ -106,27 +104,27 @@ class App extends Component {
           updateEvents={this.updateEvents}
         />
         <h4>Events in each city</h4>
+        <ResponsiveContainer height={400}>
+          <ScatterChart
+            margin={{
+              top: 20,
+              right: 20,
+              bottom: 20,
+              left: 20,
+            }}>
+            <CartesianGrid />
+            <XAxis type="category" dataKey="city" name="city" />
+            <YAxis
+              type="number"
+              dataKey="number"
+              name="number of events"
+              allowDecimals={false}
+            />
+            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+            <Scatter data={this.getData()} fill="#8884d8" />
+          </ScatterChart>
+        </ResponsiveContainer>
 
-        <ScatterChart
-          width={800}
-          height={400}
-          margin={{
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20,
-          }}>
-          <CartesianGrid />
-          <XAxis type="category" dataKey="city" name="city" />
-          <YAxis
-            type="number"
-            dataKey="number"
-            name="number of events"
-            allowDecimals={false}
-          />
-          <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-          <Scatter data={this.getData()} fill="#8884d8" />
-        </ScatterChart>
         <EventList events={this.state.events} />
         <WelcomeScreen
           showWelcomeScreen={this.state.showWelcomeScreen}
