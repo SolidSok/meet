@@ -48,8 +48,14 @@ class App extends Component {
           'You are currently offline. Data from your last session is being used.',
       });
     } else {
-      this.setState({
-        warningText: '',
+      getEvents().then(events => {
+        if (this.mounted) {
+          this.setState({
+            events,
+            locations: extractLocations(events),
+            warningText: '',
+          });
+        }
       });
     }
   }
@@ -95,7 +101,6 @@ class App extends Component {
       <div className="App">
         <WarningAlert text={this.state.warningText} />
         <h1>Meet App</h1>
-        <h4>Choose your nearest city</h4>
         <CitySearch
           locations={this.state.locations}
           updateEvents={this.updateEvents}
@@ -103,6 +108,7 @@ class App extends Component {
         <NumberOfEvents
           events={this.state.events}
           updateEvents={this.updateEvents}
+          numberOfEvents={this.state.numberOfEvents}
         />
         <h4>Events in each city</h4>
         <div className="data-vis-wrapper">

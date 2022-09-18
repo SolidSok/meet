@@ -2,7 +2,7 @@
 
 .App {
   text-align: center;
-  padding: 2% 5%;
+  padding: 4% 4%;
 }
 
 .App * {
@@ -10,7 +10,7 @@
 }
 
 body {
-  background-color: #343a81;
+  background-color: #414896;
 }
 
 ul {
@@ -25,10 +25,16 @@ label {
   color: #f5f5f5;
 }
 
+/* title colors*/
 h1,
 h4 {
   margin: 5px 0;
-  color: #45b68e;
+  color: #4fcca0;
+}
+
+.event-about {
+  margin: 5px 0;
+  color: #25c099;
 }
 
 .display-none {
@@ -164,7 +170,6 @@ input[type='number']:hover {
 }
 
 .Alert {
-  position: fixed;
   top: 20px;
 }
 
@@ -250,5 +255,6 @@ input[type='number']:hover {
     max-width: 50%;
     min-width: auto;
     margin: 0 auto;
+    background-color: rgba(253, 255, 255, 0.849);
   }
 }

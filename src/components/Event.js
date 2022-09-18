@@ -7,13 +7,14 @@ class Event extends Component {
   state = { show: false };
   render() {
     const { event } = this.props;
+
     return (
       <div className="event">
         <h1 className="event-title">{event.summary}</h1>
         <p className="event-info">
-          {event.description}
-          {event.start.dateTime}
-          {event.end.dateTime}
+          Start: {event.start.dateTime}
+          <br></br>
+          End: {event.end.dateTime}
         </p>
         {this.state.show === true && (
           <>
