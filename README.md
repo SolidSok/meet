@@ -124,7 +124,7 @@ Required installation to get started with the App, follow these steps.
 
 Clone the repo
 
-`git clone https://github.com/leevee6039/meet.git`
+`git clone https://github.com/SolidSok/meet.git`
 
 Install NPM packages
 
