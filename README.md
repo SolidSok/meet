@@ -8,6 +8,16 @@ This React project uses a test-driven development technique. The application use
 
 ---
 
+## Key Features
+
+1. Filter events by city.
+2. Show/hide event details.
+3. Specify number of events.
+4. Use the app when offline.
+5. View a chart showing the number of upcoming events by city.
+
+---
+
 ## USER STORIES
 
 1. As a user, I would like to be able to filter events by city so that I can see the list of events that take place in that city
@@ -95,3 +105,36 @@ Scenario 1: Show a chart with the number of upcoming events in each city
 Given: data of upcoming events has been obtained
 When: user clicks on upcoming events section
 Then: Chart will display with data of upcoming events
+
+# Getting Started
+
+To get started with the meet App follow these steps.
+
+## Prerequisites
+
+Your system should have a NPM.
+
+- npm
+
+  `npm install npm@latest -g`
+
+## Installation
+
+Required installation to get started with the App, follow these steps.
+
+Clone the repo
+
+`git clone https://github.com/leevee6039/meet.git`
+
+Install NPM packages
+
+`npm install`
+
+Start the app
+
+`npm run start`
+
+To push changes to github pages
+
+`npm run deploy`
+
